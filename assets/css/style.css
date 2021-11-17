@@ -1,3 +1,40 @@
-/* * {
-  background-color: aqua;
-} */
+.row{
+  margin-top: 100px;
+  margin-right: 100px;
+  margin-left: 65px;
+}
+
+.card{
+  margin-left: 110px;
+}
+
+.jumbotron{
+  height: 400px;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.page-footer{
+  margin-top: 100px;
+  padding: 50px;
+}
+
+img{
+  height: fit-content;
+}
+
+.nav-link{
+  padding-top: 20px;
+  font-weight: 200;
+  font-size: 40px;
+}
+
+.mb-1{
+  margin-top: 15px;
+}
+
+.page-footer{
+  border-top: 1px solid black;
+  margin-left: 100px;
+  margin-right: 100px;
+}
