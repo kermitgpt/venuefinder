@@ -5,7 +5,7 @@ var venueAddress;
 var cityAndZip;
 var coordinatesLat;
 var coordinatesLon;
-
+var cardDiv = document.getElementById("hide-container");
 //FUNCTION DECLARATIONS
 
 //General function for API retrieval
@@ -23,7 +23,7 @@ function cityInput(event) {
   var userCity = document.getElementById("inputPassword2");
 
   var userInput = userCity.value;
-  var requestUrl = `https://api.seatgeek.com/2/venues?city=${userInput}&client_id=MjQ0ODg0NjR8MTYzNzA5NzUyOC4xOTgwMTUy`;
+  var requestUrl = `https://api.seatgeek.com/2/venues?city=${userInput}&per_page=9&client_id=MjQ0ODg0NjR8MTYzNzA5NzUyOC4xOTgwMTUy`;
 
   fetch(requestUrl)
     .then(function (response) {
@@ -46,11 +46,29 @@ function updateVenue(d) {
     /* document.getElementById("card1").innerHTML = d.venues[0].name; */
     var mainDiv = "";
     var displayCards = document.getElementById("contentCards");
+    // document.getElementById("name1").innerHTML = d.venues[0].name;
+    var colDiv = document.createElement("div");
+    colDiv.setAttribute("class", "col-4 justify-content-center");
+    var newDiv = document.createElement("div");
+    newDiv.setAttribute("class", "card");
+    var newImg = document.createElement("img");
+    newImg.setAttribute("class", "card-img-top");
+    newImg.setAttribute("src", "place-holder.png");
+    newImg.setAttribute("alt", "Card image cap");
+    newDiv.appendChild(newImg);
+    colDiv.appendChild(newDiv);
+    cardDiv.appendChild(colDiv);
+    var cardBody = document.createElement("div");
+    cardBody.setAttribute("class", "card-body");
+    var h5 = document.createElement("h5");
+    h5.setAttribute("class", "card-title");
+    h5.textContent = venueNames;
+    cardBody.appendChild(h5);
+    newDiv.appendChild(cardBody);
   }
 }
 
 function hideCards() {
-  var cardDiv = document.getElementById("hide-container");
   cardDiv.style.display = "block";
 }
 
