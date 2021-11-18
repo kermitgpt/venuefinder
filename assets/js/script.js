@@ -8,14 +8,63 @@ var coordinatesLon;
 var cardDiv = document.getElementById("hide-container");
 //FUNCTION DECLARATIONS
 
-//General function for API retrieval
-function apiFetch(requestUrl) {
-  var apiData;
-  //     .then(function (data) {
-  //       apiData = data;
-  //     });
-  //   return apiData;
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibWF0dGdyb2dhbmRldiIsImEiOiJja3cyYjlqZDAwMG4zMm5tbmhoNXhmODRmIn0.A3BMTifw9bGTZY-Ks3uS0w";
+
+const map = new mapboxgl.Map({
+  container: "map",
+  style: "mapbox://styles/mapbox/light-v10",
+  center: [-96, 37.8],
+  zoom: 3,
+});
+
+// add markers to map
+const geojson = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [-77.032, 38.913],
+      },
+      properties: {
+        title: "Mapbox",
+        description: "Washington, D.C.",
+      },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [-122.414, 37.776],
+      },
+      properties: {
+        title: "Mapbox",
+        description: "San Francisco, California",
+      },
+    },
+  ],
+};
+
+
+for (const feature of geojson.features) {
+  // create a HTML element for each feature
+  const el = document.createElement("div");
+  el.className = "marker";
+
+  // make a marker for each feature and add to the map
+  new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
 }
+
+//General function for API retrieval
+// function apiFetch(requestUrl) {
+//   var apiData;
+//     .then(function (data) {
+//       apiData = data;
+//     });
+//   return apiData;
+// }
 
 //Retrieves an array of objects for 10 venues
 function cityInput(event) {
@@ -64,6 +113,22 @@ function updateVenue(d) {
     h5.setAttribute("class", "card-title");
     h5.textContent = venueNames;
     cardBody.appendChild(h5);
+    newDiv.appendChild(cardBody);
+    var displayAddress = document.createElement("p");
+    displayAddress.setAttribute("class", "card-text");
+    displayAddress.textContent = venueAddress;
+    cardBody.appendChild(displayAddress);
+    newDiv.appendChild(cardBody);
+    var displayZip = document.createElement("p");
+    displayZip.setAttribute("class", "card-text");
+    displayZip.textContent = cityAndZip;
+    cardBody.appendChild(displayZip);
+    newDiv.appendChild(cardBody);
+    var goButton = document.createElement("a");
+    goButton.setAttribute("class", "btn btn-primary");
+    goButton.setAttribute("href", venueUrl);
+    goButton.textContent = "Get Tickets";
+    cardBody.appendChild(goButton);
     newDiv.appendChild(cardBody);
   }
 }
