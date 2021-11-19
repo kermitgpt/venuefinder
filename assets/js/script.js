@@ -7,7 +7,8 @@ var coordinatesLat;
 var coordinatesLon;
 var cardDiv = document.getElementById("hide-container");
 //FUNCTION DECLARATIONS
-
+var venueArray = [];
+// console.log(images);
 mapboxgl.accessToken =
   "pk.eyJ1IjoibWF0dGdyb2dhbmRldiIsImEiOiJja3cyYjlqZDAwMG4zMm5tbmhoNXhmODRmIn0.A3BMTifw9bGTZY-Ks3uS0w";
 
@@ -17,54 +18,6 @@ const map = new mapboxgl.Map({
   center: [-96, 37.8],
   zoom: 3,
 });
-
-// add markers to map
-/* const geojson = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-77.032, 38.913],
-      },
-      properties: {
-        title: "Mapbox",
-        description: "Washington, D.C.",
-      },
-    },
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-122.414, 37.776],
-      },
-      properties: {
-        title: "Mapbox",
-        description: "San Francisco, California",
-      },
-    },
-  ],
-};
-
-
-for (const feature of geojson.features) {
-  // create a HTML element for each feature
-  const el = document.createElement("div");
-  el.className = "marker";
-
-  // make a marker for each feature and add to the map
-  new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
-} */
-
-//General function for API retrieval
-// function apiFetch(requestUrl) {
-//   var apiData;
-//     .then(function (data) {
-//       apiData = data;
-//     });
-//   return apiData;
-// }
 
 //Retrieves an array of objects for 10 venues
 function cityInput(event) {
@@ -84,8 +37,28 @@ function cityInput(event) {
 }
 
 function updateVenue(d) {
+  var images = [
+    "./assets/images/image1.jpg",
+    "./assets/images/image2.jpg",
+    "./assets/images/image3.jpg",
+    "./assets/images/image4.jpg",
+    "./assets/images/image5.jpg",
+    "./assets/images/image6.jpg",
+    "./assets/images/image7.jpg",
+    "./assets/images/image8.jpg",
+    "./assets/images/image9.jpg",
+  ];
+  function randomImage(images) {
+    // get random index value
+    var randomIndex = Math.floor(Math.random() * images.length);
+
+    // get random item
+    var item = images[randomIndex];
+    images.splice(randomIndex, 1);
+    return item;
+  }
+  cardDiv.innerHTML = "";
   for (var i = 0; i < d.venues.length; i++) {
-    /* console.log(d.venues[i].name); */
     venueNames = d.venues[i].name;
     venueUrl = d.venues[i].url;
     venueAddress = d.venues[i].address;
@@ -93,31 +66,24 @@ function updateVenue(d) {
     coordinatesLat = d.venues[i].location.lat;
     coordinatesLon = d.venues[i].location.lon;
 
+    venueArray.push(venueNames);
+    localStorage.setItem("venue-results", JSON.stringify(venueArray));
+
     new mapboxgl.Marker()
       .setLngLat([coordinatesLon, coordinatesLat])
       .addTo(map);
 
     map.jumpTo({ center: [coordinatesLon, coordinatesLat], zoom: 10 });
 
-    /*     map.on("load", () => {
-      for (const [index, coordinate] of parsedCoordinates.entries()) {
-        setTimeout(() => {
-          map.jumpTo({ center: coordinate });
-        }, 2000 * index);
-      }
-    }); */
-
-    /* document.getElementById("card1").innerHTML = d.venues[0].name; */
     var mainDiv = "";
     var displayCards = document.getElementById("contentCards");
-    // document.getElementById("name1").innerHTML = d.venues[0].name;
     var colDiv = document.createElement("div");
     colDiv.setAttribute("class", "col-4 justify-content-center");
     var newDiv = document.createElement("div");
     newDiv.setAttribute("class", "card");
     var newImg = document.createElement("img");
     newImg.setAttribute("class", "card-img-top");
-    newImg.setAttribute("src", "place-holder.png");
+    newImg.setAttribute("src", randomImage(images));
     newImg.setAttribute("alt", "Card image cap");
     newDiv.appendChild(newImg);
     colDiv.appendChild(newDiv);
@@ -152,40 +118,4 @@ function hideCards() {
   cardDiv.style.display = "block";
 }
 
-/* function pullData(venueData) {
-  console.log(venueData.data.venues[i].name);
-} */
-
-/* 
-function cityInput(event) {
-  event.preventDefault();
-  var userCity = document.getElementById("inputPassword2");
-
-  var userInput = userCity.value;
-  var requestUrl = `https://api.seatgeek.com/2/venues?city=${userInput}&client_id=MjQ0ODg0NjR8MTYzNzA5NzUyOC4xOTgwMTUy`;
-
-  fetch(requestUrl)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      //   apiData = data.venues;
-      console.log(data.venues);
-      for (var i = 0; i < data.venues.length; i++) {
-        console.log(data.venues.location.lat[i]);
-        console.log(data.venues.location.lon[i]);
-      }
-    });
-  //   console.log(apiFetch(requestUrl));
-} */
-
-//create api fetch functions for url, long/lat, address
-
-// var venueArray;
-// var venueName;
-// var venueAddress;
-// var venueUrl;
-
-//EVENT HANDLERS
-//Listens for a click on the submit button
 document.querySelector("#submit").addEventListener("click", cityInput);
