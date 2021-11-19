@@ -19,7 +19,7 @@ const map = new mapboxgl.Map({
 });
 
 // add markers to map
-const geojson = {
+/* const geojson = {
   type: "FeatureCollection",
   features: [
     {
@@ -55,7 +55,7 @@ for (const feature of geojson.features) {
 
   // make a marker for each feature and add to the map
   new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
-}
+} */
 
 //General function for API retrieval
 // function apiFetch(requestUrl) {
@@ -92,6 +92,10 @@ function updateVenue(d) {
     cityAndZip = d.venues[i].extended_address;
     coordinatesLat = d.venues[i].location.lat;
     coordinatesLon = d.venues[i].location.lon;
+
+    new mapboxgl.Marker()
+      .setLngLat([coordinatesLon, coordinatesLat])
+      .addTo(map);
     /* document.getElementById("card1").innerHTML = d.venues[0].name; */
     var mainDiv = "";
     var displayCards = document.getElementById("contentCards");
