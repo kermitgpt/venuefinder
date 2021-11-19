@@ -96,6 +96,17 @@ function updateVenue(d) {
     new mapboxgl.Marker()
       .setLngLat([coordinatesLon, coordinatesLat])
       .addTo(map);
+
+    map.jumpTo({ center: [coordinatesLon, coordinatesLat], zoom: 10 });
+
+    /*     map.on("load", () => {
+      for (const [index, coordinate] of parsedCoordinates.entries()) {
+        setTimeout(() => {
+          map.jumpTo({ center: coordinate });
+        }, 2000 * index);
+      }
+    }); */
+
     /* document.getElementById("card1").innerHTML = d.venues[0].name; */
     var mainDiv = "";
     var displayCards = document.getElementById("contentCards");
